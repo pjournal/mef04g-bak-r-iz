@@ -2,11 +2,15 @@
 
 ## Group Members
 
-[Alihan Büyükeken](https://pjournal.github.io/mef04-alihanb/)
-[İdil Kazezyılmaz](https://pjournal.github.io/mef04-idilkylmz/ )
-[Buğra Balantekin](https://pjournal.github.io/mef04-Balantekin/ )
-[Hüseyin Eroğlu](https://pjournal.github.io/mef04-erogluh/ )
-[Bilgen Yılmaz](https://pjournal.github.io/mef04-BilgenYilmaz/ )
+*[Alihan Büyükeken](https://pjournal.github.io/mef04-alihanb/)
+
+*[İdil Kazezyılmaz](https://pjournal.github.io/mef04-idilkylmz/ )
+
+*[Buğra Balantekin](https://pjournal.github.io/mef04-Balantekin/ )
+
+*[Hüseyin Eroğlu](https://pjournal.github.io/mef04-erogluh/ )
+
+*[Bilgen Yılmaz](https://pjournal.github.io/mef04-BilgenYilmaz/ )
 
 ## Project Links
 

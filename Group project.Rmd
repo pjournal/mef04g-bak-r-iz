@@ -1,0 +1,55 @@
+---
+title: "Analysing Ispark Data"
+output: 
+  html_document: 
+    toc: yes 
+    theme: cerulean 
+---
+
+# Project Group Name: bak-R-ız
+### Project Group:
+
+[Alihan Büyükeken](https://pjournal.github.io/mef04-alihanb/)
+
+[İdil Kazezyılmaz](https://pjournal.github.io/mef04-idilkylmz/ )
+
+[Buğra Balantekin](https://pjournal.github.io/mef04-Balantekin/ )
+
+[Hüseyin Eroğlu](https://pjournal.github.io/mef04-erogluh/ )
+
+[Bilgen Yılmaz](https://pjournal.github.io/mef04-BilgenYilmaz/ )
+
+### Project Proposal
+
+Dataset consist of 8 columns for every parking place in Istanbul. Dataset is live, thus we planned to pull
+data from source on weekly basis and we want to compare fullness of the parking space. In addition, we
+are planning to enrich data by finding location / population data.
+You can access data from [here.](https://api.ibb.gov.tr/ispark/Park)
+
+### Dataset:
+
+Column:
+
+* `ParkID`: Unique identifier of the parking place
+* `ParkAdi`: Name of the parking place
+* `Latitude`: latitude of the parking place
+* `Longitude`: longitude of the parking place
+* `Kapasitesi`: full capacity of the parking space when it is empty
+* `BosKapasite`: capacity of the parking space at a given time
+* `ParkTipi`: Types of parking ways of the parking space; Yolüstü – Acik-- Kapali
+* `Ilce`: District which parking space in
+* `UcretsizParklanmaDk`:Free parking duration in minutes
+
+### Plan
+
+* Extracting API data.
+* Cleaning data.
+* Showing basic summary of data.
+* Deeply analyzing and understanding data.
+* Understanding the relation between the park capacity and the other metric.
+* Creating shiny app that recommends best suitable parking spots with given limits.
+
+
+
+
+

@@ -14,7 +14,7 @@
 
 ## Project Links
 
-* [Project Proposal](Groupproject.html)
+* [Project Proposal](Group-project.html)
 
 ## Our Data
 

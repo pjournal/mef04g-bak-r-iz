@@ -117,6 +117,8 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 parktipi_adet %>% left_join(parkinfo_tip) %>% rename("Park Adeti"=n) 
 ```
 
+The histogram below shows us the count of monthly membership prices for different parking types. It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bimodal distribution with two peaks.
+
 
 ```{r}
 ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+

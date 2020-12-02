@@ -66,6 +66,18 @@ Missing values in Hourly Percentage of Occupancy table by variable
 sapply(parkcapacitylog, function(x) sum(is.na(x)))
 ```
 
+### Park Type Summary Table
+
+```{r}
+parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sort = TRUE)
+
+```
+
+Boxplot of Avg. monthly price for each type of `Park Type`. We took out  2 of the park types because their quantity was lower than the others so they were misleading.
+In conclusion,
+* 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
+* Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
+
 ```{r}
 parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
   geom_boxplot()
@@ -96,10 +108,6 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 parktipi_adet %>% left_join(parkinfo_tip) %>% rename("Park Adeti"=n) 
 ```
 
-```{r}
-parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sort = TRUE)
-
-```
 
 ```{r}
 ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+

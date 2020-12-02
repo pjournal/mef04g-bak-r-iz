@@ -73,7 +73,9 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 
 ```
 
-Boxplot of Avg. monthly price for each type of `Park Type`. We took out  2 of the park types because their quantity was lower than the others so they were misleading.
+Boxplot of Avg. monthly price for each type of `Park Type`. 
+
+We took out  2 of the park types because their quantity was lower than the others so they were misleading.
 In conclusion,
 * 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
 * Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.

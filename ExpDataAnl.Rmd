@@ -1,6 +1,8 @@
 ---
 title: "Exploratory Data Analysis of ISPARK Dataset"
-output: html_document
+output:
+  html_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -12,13 +14,13 @@ parkinformations <- readRDS("ispark-parkbilgileri.RDS") %>% select(-c(Distance,B
 parkcapacitylog <- readRDS("parkcapacitylog.RDS")
 ```
 
-# Dataset
+## Dataset
 
-We have two tables in our dataset. First table contains informations about ISPARK park areas. Second table contains hourly percentage of occupancies of these park areas between 19 November 2020 and 2 December 2020. We have collected this datas by using IBB OpenData API. You can also access this API from [here.](https://api.ibb.gov.tr/ispark/Park)
+We have two tables in our dataset. First table contains information about ISPARK park areas. Second table contains hourly percentage of occupancy of these park areas between 19 November 2020 and 2 December 2020. We have collected this datas by using IBB Open Data API. You can also access this API from [here.](https://api.ibb.gov.tr/ispark/Park)
 
 ### Park Informations Table
 
-Park Informations table contains 9 variables and 577 observations. Descriptions of columns is below.
+Park Information table contains 9 variables and 577 observations. Descriptions of columns is below.
 
 * `ParkID`: Unique identifier of the parking place
 * `ParkAdi`: Name of the parking place
@@ -30,10 +32,11 @@ Park Informations table contains 9 variables and 577 observations. Descriptions 
 * `UcretsizParklanmaDk`:Free parking duration in minutes
 * `AylıkAbonelikUcreti`:Monthly subscription fee (₺)
 
+#### Summary of Dataset
+
 ```{r parkinfosum}
 summary(parkinformations)
 ```
-
 
 
 ### Hourly Percentage of Occupancy Table
@@ -45,16 +48,17 @@ Hourly Percentage of Occupancy table contains 4 variables and `r nrow(parkcapaci
 * `DolulukYuzdesi`: Percentage of occupancy
 * `OlcumZamanı`: Observation date and time
 
+#### Summary of Dataset
 
 ```{r parkcapsum}
 summary(parkcapacitylog)
 ```
 
-# Missing Values
+### Missing Values
 
 We don't have any missing values in our tables as you can see below. We think this is because we use API data that is cleaned and submitted by others.
 
-Missing values in Park Informations table by variable
+Missing values in Park Information table by variable
 
 ```{r}
 sapply(parkinformations, function(x) sum(is.na(x)))
@@ -66,7 +70,9 @@ Missing values in Hourly Percentage of Occupancy table by variable
 sapply(parkcapacitylog, function(x) sum(is.na(x)))
 ```
 
-**Park Type Summary Table**
+## Statistical Examination
+
+### Park Type Summary Table
 
 According to their types, we can see the count, total capacity and avg. monthly price in below table.
 
@@ -77,13 +83,21 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 parktipi_adet %>% left_join(parkinfo_tip) %>% rename("Park Adeti"=n) 
 ```
 
+### Park Count by District
+
+Top 10 district who has most park count are as follows;
+
+```{r message=FALSE, warning=FALSE}
+parkyer_adet <- parkinformations %>% group_by(Ilce) %>% count(Ilce, sort = TRUE) %>% top_n(10, n)
+parkyer_adet
+```
 
 ```{r}
 parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sort = TRUE)
 
 ```
 
-**Boxplot of Avg. monthly price for each type of `Park Type`. **
+### Boxplot of Avg. monthly price for each type of `Park Type`
 
 We took out  2 of the park types because their quantity was lower than the others so they were misleading.
 In conclusion,
@@ -95,7 +109,7 @@ parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YO
   geom_boxplot()
 ```
 
-**HOURLY OCCUPANCY RATE**
+### Hourly Occupancy Rates
 
 ```{r message=FALSE, warning=FALSE}
 park_capacity_hourly <- parkcapacitylog %>%
@@ -126,7 +140,7 @@ ggplot(merged_park_capacity_hourly, aes(hour, avd_doluluk_orani, color=ParkTipi)
 In all park types, the average occupancy rate decreases during daytime In Istanbul. In average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.  
 
 
-**PRICE HISTOGRAM**
+### Price Histogram
 
 The histogram below shows us the count of monthly membership prices for different parking types. It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
 

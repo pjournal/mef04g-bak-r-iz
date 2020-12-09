@@ -16,9 +16,12 @@
 
 * [Project Proposal](Group-project.html)
 
+* [Exploratory Data Analysis](ExpDataAnl.html)
+
 ## Our Data
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park)
 
 ## Group Assignment 1
 * [Isbike Report](https://alihan.shinyapps.io/ISBIKE-shiny/)
+

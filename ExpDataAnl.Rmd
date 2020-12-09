@@ -111,6 +111,8 @@ parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YO
 
 ### Hourly Occupancy Rates
 
+The line graph below shows us average hourly occupancy rates of ‘Ispark’ stations. It can be seen from the graph that average parking occupancy rate during daytime is less than nights. Parking occupancy rate is starting to decrease when working hours started and continue to decrease until approximately 15:00 pm. and it sharply increases by closing hours of working day. The graph shows that ‘Ispark’ stations mostly used during night.
+
 ```{r message=FALSE, warning=FALSE}
 park_capacity_hourly <- parkcapacitylog %>%
   group_by(hour = lubridate::hour(OlcumZamanı)) %>%
@@ -118,11 +120,11 @@ park_capacity_hourly <- parkcapacitylog %>%
 ggplot(park_capacity_hourly, aes(hour, avd_doluluk_orani)) +
   geom_line() +
   labs(x="Hour", y="Average Occupancy Rate") +
-  labs(title = "Average Hourly Parking Occupancy Rate in Istanbul")
+  labs(title = "Average Hourly Parking Occupancy Rate of Ispark")
 ```
 
 
-In above line graph, average parking occupancy rate during daytime is less than nights. Parking occupancy rate is starting to decrease when working hours started and continue to decrease until approximately 15:00 pm. and it sharply increases by closing hours of working day. The graph shows that 'İspark' stations in Istanbul mostly used during nights.
+The line below shows us average hourly parking occupancy Rates by park types of ‘Ispark’ stations. In all park types, the average occupancy rate decreases during daytime. In other words, in all park types, park stations mostly used during night. Another conclusion we can draw is, in average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -133,11 +135,10 @@ merged_park_capacity_hourly <- mergedtable %>%
 ggplot(merged_park_capacity_hourly, aes(hour, avd_doluluk_orani, color=ParkTipi)) +
   geom_line() +
   labs(x="Hour", y="Average Occupancy Rate") +
-  labs(title = "Hourly Parking Occupancy Rate by Park Type in Istanbul")
+  labs(title = "Hourly Parking Occupancy Rate by Ispark Types")
 ```
 
 
-In all park types, the average occupancy rate decreases during daytime In Istanbul. In average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.  
 
 
 ### Price Histogram

@@ -1,0 +1,12 @@
+name: ISBIKE-shiny
+title: ISBIKE-shiny
+username:
+account: alihan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3319507
+bundleId: 3919694
+url: https://alihan.shinyapps.io/ISBIKE-shiny/
+when: 1606672926.2876
+asMultiple: FALSE
+asStatic: FALSE

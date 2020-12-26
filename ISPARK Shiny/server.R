@@ -18,6 +18,14 @@ function(input, output, session){
     df1 <- isparkparkbilgileri  %>% filter(Kapasitesi >= input$total[1], Kapasitesi <= input$total[2])
   })
   
+  output$dateRangeText  <- renderText({
+    paste(input$dateRange)
+  })
+  
+  output$loc <- renderText({input$location})
+  
+  
+  
   output$map <- renderLeaflet({
     df1 <- datafilt() #%>% filter(!adi %in% input$stations)
     leaflet(df1) %>% addTiles() %>%

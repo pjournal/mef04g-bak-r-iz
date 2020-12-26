@@ -1,0 +1,12 @@
+name: ISPARK-Shiny
+title: ISPARK-Shiny
+username:
+account: alihan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3429460
+bundleId: 4029163
+url: https://alihan.shinyapps.io/ISPARK-Shiny/
+when: 1608941460.06482
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,6 +1,6 @@
 library(dplyr)
 
-load("~/GitHub/mef04g-bak-r-iz/ISPARK Shiny/ISPARK.RData")
+load("ISPARK.RData")
 isparkparkbilgileri$Latitude <- as.numeric(isparkparkbilgileri$Latitude)
 isparkparkbilgileri$Longitude <- as.numeric(isparkparkbilgileri$Longitude)
 ortdol <- function(ID){

@@ -1,0 +1,147 @@
+---
+title: "Data Preprocessing"
+author: "Alihan"
+date: "12/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Information
+
+In this document, we will explain how we create our data set for ISPARK Analysis.
+
+ISPARK (Istanbul Parking Operations Co.) is parking management services company of IBB. They manages on-street and closed parking areas belonging to IBB. We have used Istanbul Metropolitan Municipality(IBB)'s Open Data Portal ISPARK API for collecting our data.
+
+There are only two API call in this service and service returns JSON data to request. First call is gives you basic informations of all park areas. Second call gives you detailed information about selected park area.
+
+The first call largely met our needs. We have used second call for only taking monthly subcription price for every park area.
+
+## 2. Gathering Park Area Informations
+
+###  2.1. Libraries
+
+For this gathering informations of park areas, we used three libraries:
+
+1. `httr` for API calls.
+2. `jsonlite` for processing JSON file.
+3. `dplyr` for manipulating data. 
+
+```{r eval=FALSE, echo=TRUE}
+library(httr)
+library(jsonlite)
+library(dplyr)
+```
+
+### 2.2. Functions
+
+We have created two main functions:
+
+1. Our first function makes request form API for taking basic informations of all park areas, then creates datatable from JSON.
+
+```{r eval=FALSE, echo=TRUE}
+getparklist <- function(){
+  res <- GET("https://api.ibb.gov.tr/ispark/Park")
+  dt <- res$content %>% rawToChar() %>% fromJSON()
+  return(dt)
+}
+```
+
+2. Second function takes ParkID, and make request for detailed information, then returns monthly subscription price for requested ParkID
+ 
+```{r eval=FALSE, echo=TRUE}
+getprice <- function(ParkID){
+  res <- GET(paste0("https://api.ibb.gov.tr/ispark/ParkDetay?id=",ParkID))
+  aylikucret <- res$content %>% rawToChar(.) %>% fromJSON(.)
+  aylikucret <- aylikucret$AylikAbonelikUcreti
+  return(aylikucret)
+}
+```
+
+### 2.3.Creating and Saving Dataset
+
+In this part of script, we create datafreame called df using our first function. After that, we mutate this dataframe by our second function. At the end, we save this df as RDS.
+
+```{r eval=FALSE, echo=TRUE}
+df <- getparklist()
+df <- df %>% group_by(ParkID) %>% mutate("AylıkAbonelikÜcreti"=getprice(ParkID))
+
+saveRDS(df,"ispark-parkbilgileri.RDS")
+```
+
+
+## 3. Creating Hourly Occupancy Rate Dataset
+
+When we look API results, we saw that API results give us real-time free capacity information for all park areas. We decided to take this data in hourly basis and use that in the project. 
+
+### 3.1. Libraries 
+
+Same libraries for same tasks. 
+
+```{r eval=FALSE, echo=TRUE}
+library(httr)
+library(jsonlite)
+library(dplyr)
+```
+
+### 3.2. Functions 
+
+We have two new function for this job. 
+
+1. Our first functions takes data from API and mutate this data with adding occupancy rate and time of measurement
+
+```{r eval=FALSE, echo=TRUE}
+getparks <- function(){
+  res <- GET("https://api.ibb.gov.tr/ispark/Park")
+  dt <- res$content %>% rawToChar() %>% fromJSON()
+  dt <- dt %>% mutate("DolulukYuzdesi"=(BosKapasite/Kapasitesi)*100) %>%  select(ParkID,ParkAdi,DolulukYuzdesi)
+  dt$OlcumZamanı <- Zaman
+  return(dt)
+}
+```
+
+2. Second function takes time, checks whether .RDS file exist. If .RDS file exists append together new data and old data, if not creates .RDS file.
+
+```{r eval=FALSE, echo=TRUE}
+savedata <- function(){
+  x = as.POSIXct(Sys.time(), tz = "Europe/London")
+  Zaman <- .POSIXct(as.integer(x), tz = 'Europe/Istanbul')
+
+  parks <- getparks()
+  
+  if(file.exists("parkcapacitylog.RDS")){
+    rds <- readRDS("parkcapacitylog.RDS")
+    rds <- rbind(rds,parks)
+    saveRDS(rds, file = "parkcapacitylog.RDS")
+  } else{
+    saveRDS(parks, file = "parkcapacitylog.RDS")
+  }
+}
+```
+
+## 4. Scheduling Script
+
+We used CRONR package for scheduling our script in Ubuntu. You can check this [link](https://cran.r-project.org/web/packages/cronR/vignettes/cronR.html) for detailed information about CRON and CRONR.
+
+```
+## cronR job
+## id:   job_9b894c616238f3e8db2b75d122705aa8
+## tags: 
+## desc: ISPARK Saatlik Doluluk Yüzdesi
+35 * * * * /usr/lib/R/bin/Rscript '/home/alihan/BDA-203/Week 7/takecapacitylog.R'  >> '/home/alihan/BDA-203/Week 7/takecapacitylog.log' 2>&1
+
+```
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+load("~/GitHub/mef04g-bak-r-iz/ISPARK Shiny/ISPARK.RData")
+```
+
+## 5. Saving DataFrames as RData
+
+We used `save()` function saving multiple object as .RData file.
+
+```{r}
+save(isparkparkbilgileri, parkcapacitylog, file = "ISPARK.RData")
+```
+

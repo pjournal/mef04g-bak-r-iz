@@ -134,11 +134,15 @@ merged_park_capacity_daily <- mergedtable %>%
 
 ## Price Tables & Plots
 
+We have 196 free, 381 paid parks in Istanbul.
+
+%52 of the free parks are On Road Type of park. %40.8 of the free parks are Open Parks.
+
 ```{r ucretdurumu, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE}
 ucretdurumu <- parkinformations %>% transmute(ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
 ucretdurumutab <- ucretdurumu %>% group_by(ucretDurumu) %>% count(ucretDurumu)
 
-ggplot(ucretdurumutab, aes(x=reorder(ucretDurumu, n), y=n))+
+ggplot(ucretdurumutab, aes(x=reorder(ucretDurumu, n, fill=ucretDurumu), y=n))+
   geom_bar(stat="identity", position = "dodge")+
   labs(title="Free Parks",x ="Free/ Not Free", y = "Count")
 
@@ -151,14 +155,16 @@ ggplot(ucretdurumutab2, aes(x=reorder(ucretDurumu, n), y=n, fill=ParkTipi))+
 
 ```
 
-We have 196 free parks in Istanbul  
+
 It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
 
 
 ```{r message=FALSE, warning=FALSE}
-ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
-  geom_histogram()+
-  labs(title="Monthly Membership Prices Histogram",x ="Price", y = "Count")
+parkinformations %>% filter(AylıkAbonelikÜcreti != 0) %>%
+  ggplot(aes(x=AylıkAbonelikÜcreti, color=ParkTipi))+
+  geom_freqpoly(binwidth = 50)+
+  labs(title="Monthly Membership Prices Histogram",x ="Price", y = "Count")+
+  scale_x_discrete(limits=c("0", "600", "50"))
 ```
 
 ## Total Park Capacities of Districts 

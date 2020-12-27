@@ -156,15 +156,20 @@ ggplot(ucretdurumutab2, aes(x=reorder(ucretDurumu, n), y=n, fill=ParkTipi))+
 ```
 
 
-It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
+In below table, we can see that;
+
+For on-road parks most frequent monthly price is between 200 - 300 TL.
+
+For open parks most frequent monthly price is between 100 - 200 TL.
+
+For closed parks most frequent monthly price is close to 200 TL.
 
 
-```{r message=FALSE, warning=FALSE}
+```{r, out.width="60%", message=FALSE, warning=FALSE}
 parkinformations %>% filter(AylıkAbonelikÜcreti != 0) %>%
   ggplot(aes(x=AylıkAbonelikÜcreti, color=ParkTipi))+
-  geom_freqpoly(binwidth = 50)+
-  labs(title="Monthly Membership Prices Histogram",x ="Price", y = "Count")+
-  scale_x_discrete(limits=c("0", "600", "50"))
+  geom_freqpoly(binwidth = 50, position="dodge")+
+  labs(title="Monthly Membership Prices Histogram",x ="Price", y = "Count")
 ```
 
 ## Total Park Capacities of Districts 
@@ -179,8 +184,9 @@ parkinformations %>% group_by(Ilce,ParkTipi) %>% summarise(Kapasite=sum(Kapasite
   ggplot(., aes(x=reorder(Ilce,-IlceKapasite), y=Kapasite, fill=ParkTipi)) +
        geom_bar(position = "stack", stat = "identity", width = 0.5) +
        theme(axis.text.x = element_text(angle=65, vjust=0.6)) +
-       xlab("Park Capacity") +
-       ylab("District")
+       xlab("District") +
+       ylab("Park Capacity")+
+      facet_grid(ParkTipi ~ .)
 
 ```
 

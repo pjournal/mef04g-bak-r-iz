@@ -41,6 +41,21 @@ function(input, output, session){
       )
   })
 
+  observeEvent(input$x,{
+    if(input$x=="_"){
+      updateSelectInput(session,"y",choices = c("_",unique(isparkparkbilgileri$ParkAdi))) 
+    }else{
+      updateSelectInput(session,"y",choices = c("_",unique(isparkparkbilgileri$ParkAdi[isparkparkbilgileri$Ilce==input$x])),selected = isolate(input$y))
+    }
+  })
+  
+  observeEvent(input$y,{
+    if(input$y=="_"){
+      updateSelectInput(session,"x",choices = c("_",unique(isparkparkbilgileri$Ilce))) 
+    }else{
+      updateSelectInput(session,"x",choices = c("_",unique(isparkparkbilgileri$Ilce[isparkparkbilgileri$ParkAdi==input$y])),selected = isolate(input$x))
+    }
+  } )
  
   # output$plot <- renderPlot({
   #   df1 <- isparkparkbilgileri #%>% filter(!adi %in% input$stations) %>% filter(total > input$total)  %>% filter(bos > input$bos)
@@ -62,6 +77,23 @@ function(input, output, session){
   #     scale_y_continuous(limits = c(0,60)) +
   #     theme_light()
   # })
+  output$plot4<- renderPlot({
+    
+    
+    parkcapacitylog<- parkcapacitylog %>% filter(ParkAdi %in% input$y)
+    
+    gunler <- wday(parkcapacitylog$OlcumZamani, label = TRUE)
+    
+    parkcapacitylogfordays <- aggregate(DolulukYuzdesi ~ OlcumZamani +gunler, parkcapacitylog, mean)
+    
+    ggplot(parkcapacitylogfordays, aes(x=OlcumZamani, y=DolulukYuzdesi, colour=gunler)) + 
+      geom_path()+
+      scale_x_datetime()+
+      facet_grid(gunler ~.) +
+      theme(legend.position="none")
+    
+  })
+  
 }
 
 

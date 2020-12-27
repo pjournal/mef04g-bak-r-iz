@@ -15,14 +15,17 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
         leafletOutput("map", width="100%", height="100%"),
         absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                       draggable = TRUE, top = "auto", left = 40, right = "auto", bottom = 80,
-                      width = 330, height = 500,
+                      width = 330, height = 330,
                       
                       h2("Filters"),
                       sliderInput("total", "Total Capacity of Park", min(isparkparkbilgileri$Kapasitesi), max(isparkparkbilgileri$Kapasitesi),
                                   value = c(0,5000), step = 5, ticks = FALSE),
-                      checkboxInput("legend", "Show legend", TRUE),
-                      sliderInput("occupancyrate", "Select Occupancy Rate", min(isparkparkbilgileri$OrtalamaDoluluk), max(isparkparkbilgileri$OrtalamaDoluluk)),
-                      selectInput("district", "Select District", c("All",unique(isparkparkbilgileri$Ilce)), multiple = TRUE)
+                      sliderInput("occupancyrate", "Select Occupancy Rate", 
+                                  min(isparkparkbilgileri$OrtalamaDoluluk), 
+                                  max(isparkparkbilgileri$OrtalamaDoluluk), 
+                                  value = c(0,100),
+                                  ticks = FALSE),
+                      selectInput("district", "Select District", c("All",unique(isparkparkbilgileri$Ilce)),selected = "All")
         )
     )
   ),          

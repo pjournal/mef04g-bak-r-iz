@@ -31,21 +31,15 @@ class: inverse, center, middle
 
 # Table of Contents
 
-* Our Mission
-* Brief Information About Dataset
-* Boxplot of Avg. monthly price for each type of `Park Type`
-* Hourly Occupancy Rate
-* Price Histogram
-* Number of Parks According to Their Type
-* Frequency of the Parks
+Brief Information About Dataset
+Our Mission
+Park Type Summary Table
+Boxplot of Avg. monthly price for each type of `Park Type`
+Hourly and Daily Occupancy Rate
+Price Tables & Plots
+Total Park Capacities of Districts
+Frequency of the Parks
 
----
-
-class: inverse, center, middle
-
-# Our Mission
-
-Understanding the relation between the park capacity and the other metric. Creating shiny app that recommends best suitable parking spots with given limits. You can check our app from [here.](https://alihan.shinyapps.io/ISPARK-Shiny/)
 
 ---
 
@@ -57,43 +51,88 @@ We have two tables in our dataset. First table contains informations about ISPAR
 
 ---
 
+
 class: inverse, center, middle
 
-# Boxplot of Avg. monthly price for each type of `Park Type`.
+# Our Mission
 
-We took out  2 of the park types because their quantity was lower than the others so they were misleading.
-In conclusion,
-* 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
-* Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
+Understanding the relation between the park capacity and the other metric. Creating shiny app that recommends best suitable parking spots with given limits. You can check our app from [here.](https://alihan.shinyapps.io/ISPARK-Shiny/)
 
-```{r echo=FALSE}
+---
+
+class: inverse, left, middle
+
+# Park Type Summary Table
+
+We can see the count, total capacity and avg. monthly price in below table.
+
+We have 5 different park types. 
+
+"ON ROAD" type park is the highest with number of the parks also with pricing. 
+
+"OPEN OTOPARK" type is the highest with the total capacity.
+
+```{r parkinfosum, out.width="55%", echo=FALSE, message=FALSE, warning=FALSE, format = 'html'}
+
+parkinfo_tip <- isparkbilgileri %>% group_by(ParkTipi) %>% summarize("Toplam Kapasite"=sum(Kapasitesi), "Ortalama Kapatise"=mean(Kapasitesi), "Ortalama Ücretsiz Park Suresi" = mean(UcretsizParklanmaDk), "Ortalama Aylik Ucret" = mean(AylıkAbonelikÜcreti))
+parktipi_adet <- isparkbilgileri %>% group_by(ParkTipi) %>% count(ParkTipi, sort = TRUE)
+#parkinfo_tip %>% left_join(parktipi_adet) 
+parktipi_adet %>% left_join(parkinfo_tip) %>% rename("Park Adeti"=n) 
+```
+
+
+---
+
+class: inverse, left, middle
+
+# Boxplot of Avg. Monthly Price
+
+Open Park has a lower mean of monthly price than 'Close Park' and 'Road Park'.
+Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
+
+```{r, out.width="50%", echo=FALSE}
 isparkbilgileri %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
   geom_boxplot()
+
 ```
 
 ---
 
-class: inverse, center, middle
+class: inverse, left, middle
 
-# Hourly Occupancy Rate
+# Free/ Paid Parking Areas
 
-The line graph below shows us average hourly occupancy rates of ‘Ispark’ stations. It can be seen from the graph that average parking occupancy rate during daytime is less than nights. Parking occupancy rate is starting to decrease when working hours started and continue to decrease until approximately 15:00 pm. and it sharply increases by closing hours of working day. The graph shows that ‘Ispark’ stations mostly used during night.
+We have 196 free, 381 paid parks in Istanbul.
 
-```{r message=FALSE, warning=FALSE}
-park_capacity_hourly <- parkcapacitylog %>%
-  group_by(hour = lubridate::hour(OlcumZamanı)) %>%
-  summarize( avd_doluluk_orani =mean(DolulukYuzdesi))
-ggplot(park_capacity_hourly, aes(hour, avd_doluluk_orani)) +
-  geom_line() +
-  labs(x="Hour", y="Average Occupancy Rate") +
-  labs(title = "Average Hourly Parking Occupancy Rate of Ispark")
+%52 of the free parks are On Road Type of park. %40.8 of the free parks are Open Parks.
+
+```{r ucretdurumu, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE, echo=FALSE}
+ucretdurumu <- isparkbilgileri %>% transmute(ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
+ucretdurumutab <- ucretdurumu %>% group_by(ucretDurumu) %>% count(ucretDurumu)
+
+ggplot(ucretdurumutab, aes(x=reorder(ucretDurumu, n, fill=ucretDurumu), y=n))+
+  geom_bar(stat="identity", position = "dodge")+
+  labs(title="Free Parks",x ="Free/ Not Free", y = "Count")
+
+ucretdurumu2 <- isparkbilgileri %>% transmute(ParkTipi, ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
+ucretdurumutab2 <- ucretdurumu2 %>% group_by(ParkTipi, ucretDurumu) %>% count(ucretDurumu)
+
+ggplot(ucretdurumutab2, aes(x=reorder(ucretDurumu, n), y=n, fill=ParkTipi))+
+  geom_bar(stat="identity", position = "dodge")+
+  labs(title="Free/ Not Free Status by Park Type",x ="Free/ Not Free", y = "Count")
+
 ```
 
 ---
+class: inverse, left, middle
 
-The line below shows us average hourly parking occupancy Rates by park types of ‘Ispark’ stations. In all park types, the average occupancy rate decreases during daytime. In other words, in all park types, park stations mostly used during night. Another conclusion we can draw is, in average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.
+# Occupancy Rates
 
-```{r message=FALSE, warning=FALSE}
+In all park types, average parking occupancy rate during daytime (around 15:00) is less than nights.
+
+We can say on week days occupancy is lower than weekend days.
+
+```{r hourday, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE, echo=FALSE}
 mergedtable <- merge(x = parkcapacitylog, y = isparkbilgileri, by = "ParkID", all.x = TRUE)
 merged_park_capacity_hourly <- mergedtable %>%
   group_by(hour = lubridate::hour(OlcumZamanı), ParkTipi) %>%
@@ -102,51 +141,60 @@ ggplot(merged_park_capacity_hourly, aes(hour, avd_doluluk_orani, color=ParkTipi)
   geom_line() +
   labs(x="Hour", y="Average Occupancy Rate") +
   labs(title = "Hourly Parking Occupancy Rate by Ispark Types")
+
+
+merged_park_capacity_daily <- mergedtable %>% 
+  group_by(wday = lubridate::wday(OlcumZamanı), ParkTipi) %>%
+  summarize( avd_doluluk_orani =mean(DolulukYuzdesi)) %>% filter(ParkTipi != "NA")
+  ggplot(merged_park_capacity_daily, aes(wday, avd_doluluk_orani, color=ParkTipi)) +
+  geom_line() +
+  labs(x="Week Day", y="Average Occupancy Rate") +
+  labs(title = "Daily Parking Occupancy Rate by Ispark Types")
+
+
 ```
 
 ---
 
-class: inverse, center, middle
+class: inverse, left, middle
 
-# Price Histogram
+# Frequency of the Parks by District
 
-The histogram below shows us the count of monthly membership prices for different parking types. It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
+If we look at the frequencies of the parks Fatih district has the highest park number After Fatih, Besiktas and Sisli districts are amongst highest. 
 
-```{r}
-ggplot(isparkbilgileri, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
-  geom_histogram(bins = 6, binwidth = 100)+
-  labs(title="Price Histogram",x ="Price", y = "Count")
+Arnavutkoy and Sultangazi are almost equal and has the lowest frequency.
+
+```{r, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE, echo=FALSE}
+isparkbilgileri %>% group_by(Ilce) %>% count() %>% 
+       ggplot(mapping = aes(x = reorder(Ilce, n), y=n)) + geom_bar(stat = "identity", fill="green") +
+       labs(title="Frequency of Park Areas")  +
+       coord_flip() + 
+       ylab("Park Area Count") +
+       xlab("District") +
+       theme_minimal()
 ```
+
 
 ---
 
-class: inverse, center, middle
+class: inverse, left, middle
 
-# Number of Parks According To Their Type
+# Shiny App: Park Finder
 
-In this graph if we look at the park type, the district with the highest number is Fatih with the type of "YOL ÜSTÜ". For the "AÇIK OTOPARK" type again Fatih is the district with the highest number. For the "YOL ÜSTÜ" type Silivri district has the second highest number. We can say that "YOL ÜSTÜ" park is the most common type.
+We wanted to create an app to find best park location suits user's selection, while giving information about that park.
 
-```{r}
-ggplot(isparkparkbilgileri, aes(Ilce))+
-       geom_bar(aes(fill=ParkTipi), width = 0.5)+
-       theme(axis.text.x = element_text(angle=65, vjust=0.6))
-```
+**For map, inputs are: **
 
----
 
-class: inverse, center, middle
+`Total Capacity` : Total capacity of the park
 
-# Frequency of the Parks
+`Occupancy Rate` : Occupancy rate of the park
 
-If we look at the frequencies of the parks Fatih district has the highest frequency. After that Beşiktaş and Şişli districts are almost equal and has the second highest frequency. Arnavutköy and Sultangazi are almost equal and has the lowest frequency.
+`District` : Park's location as district
 
-```{r}
-isparkparkbilgileri %>%
-       ggplot(mapping = aes(x = Ilce)) + geom_bar() +
-       labs(title="Bar Chart",
-            subtitle="Frequency of parks",
-            caption="Source: Frequency of Manufacturers from 'ISPARK' dataset") +
-       coord_flip()+
-       theme(axis.text.x = element_text())
-```
+**For plots, inputs are:**
 
+
+`District` : Park's location as district
+
+`Park Area Name` : Park's name

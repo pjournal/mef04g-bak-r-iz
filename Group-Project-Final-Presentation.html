@@ -3,7 +3,6 @@
   <head>
     <title>Group-Project-Final-Presentation.utf8</title>
     <meta charset="utf-8" />
-    <script src="libs/header-attrs-2.5/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
   </head>
@@ -32,6 +31,10 @@ class: inverse, center, middle
 * Price Histogram
 * Number of Parks According to Their Type
 * Frequency of the Parks
+* Shiny App Map
+* Shiny App Plot
+* Purpose of Shiny App
+* Key Findings
 
 ---
 
@@ -158,6 +161,32 @@ isparkparkbilgileri %&gt;%
 
 
 ---
+class: inverse, center, middle
+
+#SHINY APP MAP
+
+The shiny app built can filter Districts, Total Capacity of Parks and Occupancy Rate
+
+.center[![Shiny App Map](shiny.jpg)]
+
+---
+class: inverse, center, middle
+
+#SHINY APP PLOT
+The Plot shows us that hourly average occupancy of all parks outside the working hours is around 75 pct. During the working hours occupancy rate falls below 60 pct. Saturday and Sunday have a different tendency. Sunday follows a linear trend almost in which occupancy level swings between 75-78 pct. 
+
+.center[![Shiny App Plot](shiny-plot.jpg)]
+---
+class: inverse, center, middle
+#PURPOSE OF SHINY APP
+
+Main purpose of our App is to show parks in Istanbul map according to their occupancy rate, Total Capacity and District.
+
+Map part of our App also has a pop-up feature when clicked on to the green/red spot gives basic information about the mentioned park. The map can also zoom in/out when filters change accordingly
+
+Plot part of the app has two main filter; District and Parks of the selected Disctrict. When filtered the plot visualizes the average occupancy of given park for every weekday hourly. If none of the filters are selected the plot shows the total average occupancy levels of all parks.
+
+---
 
 class: inverse, center, middle
 
@@ -174,11 +203,6 @@ class: inverse, center, middle
 class: inverse, center, middle
 
 # Thank You!
-
-
-
-
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

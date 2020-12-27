@@ -132,15 +132,33 @@ merged_park_capacity_daily <- mergedtable %>%
 ```
 
 
-## Price Histogram
+## Price Tables & Plots
 
-The histogram below shows us the count of monthly membership prices for different parking types. It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
+```{r ucretdurumu, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE}
+ucretdurumu <- parkinformations %>% transmute(ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
+ucretdurumutab <- ucretdurumu %>% group_by(ucretDurumu) %>% count(ucretDurumu)
+
+ggplot(ucretdurumutab, aes(x=ucretDurumu, y=n))+
+  geom_bar(stat="identity", position = "dodge")+
+  labs(title="Free Parks",x ="Free/ Not Free", y = "Count")
+
+ucretdurumu2 <- parkinformations %>% transmute(ParkTipi, ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
+ucretdurumutab2 <- ucretdurumu2 %>% group_by(ParkTipi, ucretDurumu) %>% count(ucretDurumu)
+
+ggplot(ucretdurumutab2, aes(x=ucretDurumu, y=n, fill=ParkTipi))+
+  geom_bar(stat="identity", position = "dodge")+
+  labs(title="Free/ Not Free Status by Park Type",x ="Free/ Not Free", y = "Count")
+
+```
+
+We have 196 free parks in Istanbul  
+It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
-  geom_histogram(bins = 6, binwidth = 100)+
-  labs(title="Price Histogram",x ="Price", y = "Count")
+  geom_histogram()+
+  labs(title="Monthly Membership Prices Histogram",x ="Price", y = "Count")
 ```
 
 ## Total Park Capacities of Districts 

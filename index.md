@@ -18,6 +18,8 @@
 
 * [Exploratory Data Analysis](ExpDataAnl.html)
 
+* [Final Report](Group-Project-Final-Report.html)
+
 ## Our Data
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park)

@@ -66,7 +66,7 @@ In conclusion,
 * 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
 * Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
 
-```{r}
+```{r echo=FALSE}
 isparkbilgileri %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
   geom_boxplot()
 ```

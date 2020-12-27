@@ -132,7 +132,7 @@ merged_park_capacity_daily <- mergedtable %>%
 ```
 
 
-## Price Tables & Plots
+## Price Plots
 
 We have 196 free, 381 paid parks in Istanbul.
 

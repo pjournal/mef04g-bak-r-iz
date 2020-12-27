@@ -138,14 +138,14 @@ merged_park_capacity_daily <- mergedtable %>%
 ucretdurumu <- parkinformations %>% transmute(ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
 ucretdurumutab <- ucretdurumu %>% group_by(ucretDurumu) %>% count(ucretDurumu)
 
-ggplot(ucretdurumutab, aes(x=ucretDurumu, y=n))+
+ggplot(ucretdurumutab, aes(x=reorder(ucretDurumu, n), y=n))+
   geom_bar(stat="identity", position = "dodge")+
   labs(title="Free Parks",x ="Free/ Not Free", y = "Count")
 
 ucretdurumu2 <- parkinformations %>% transmute(ParkTipi, ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
 ucretdurumutab2 <- ucretdurumu2 %>% group_by(ParkTipi, ucretDurumu) %>% count(ucretDurumu)
 
-ggplot(ucretdurumutab2, aes(x=ucretDurumu, y=n, fill=ParkTipi))+
+ggplot(ucretdurumutab2, aes(x=reorder(ucretDurumu, n), y=n, fill=ParkTipi))+
   geom_bar(stat="identity", position = "dodge")+
   labs(title="Free/ Not Free Status by Park Type",x ="Free/ Not Free", y = "Count")
 

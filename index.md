@@ -22,6 +22,8 @@
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park)
 
+* [Data Preprocessing](DataPreProc.html)
+
 ## Group Assignment 1
 * [Isbike Report](https://alihan.shinyapps.io/ISBIKE-shiny/)
 

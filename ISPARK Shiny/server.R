@@ -77,23 +77,45 @@ function(input, output, session){
   #     scale_y_continuous(limits = c(0,60)) +
   #     theme_light()
   # })
-  output$plot4<- renderPlot({
-    
-    
-    parkcapacitylog<- parkcapacitylog %>% filter(ParkAdi %in% input$y)
-    
-    gunler <- wday(parkcapacitylog$OlcumZamani, label = TRUE)
-    
-    parkcapacitylogfordays <- aggregate(DolulukYuzdesi ~ OlcumZamani +gunler, parkcapacitylog, mean)
-    
-    ggplot(parkcapacitylogfordays, aes(x=OlcumZamani, y=DolulukYuzdesi, colour=gunler)) + 
-      geom_path()+
-      scale_x_datetime()+
-      facet_grid(gunler ~.) +
-      theme(legend.position="none")
-    
-  })
+  # output$plot4<- renderPlot({
+  #   
+  #   
+  #   parkcapacitylog<- parkcapacitylog %>% filter(ParkAdi %in% input$y)
+  #   
+  #   gunler <- wday(parkcapacitylog$OlcumZamani, label = TRUE)
+  #   
+  #   parkcapacitylogfordays <- aggregate(DolulukYuzdesi ~ OlcumZamanÄ± +gunler, parkcapacitylog, mean)
+  #   
+  #   ggplot(parkcapacitylogfordays, aes(x=OlcumZamani, y=DolulukYuzdesi, colour=gunler)) + 
+  #     geom_path()+
+  #     scale_x_datetime()+
+  #     facet_grid(gunler ~.) +
+  #     theme(legend.position="none")
+  #   
+  # })
   
+  output$plot5 <- renderPlot({
+    
+    parkcapacitylog <- parkcapacitylog %>% filter(ParkAdi %in% input$y)
+    
+    
+    park_capacity_hourly <- parkcapacitylog %>% 
+      mutate(wday=lubridate::wday(OlcumZamanı,label=TRUE,abbr=FALSE), hour=lubridate::hour(OlcumZamanı)) %>% 
+      group_by(wday, hour) %>%
+      summarize(avd_doluluk_orani =mean(DolulukYuzdesi))
+    
+    park_capacity_hourly$Day <- factor(park_capacity_hourly$wday, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+    
+    ggplot(park_capacity_hourly, aes(hour, avd_doluluk_orani, color=Day)) +
+      geom_line() +
+      #facet_grid(Day ~.) +
+      scale_y_continuous(limits = c(0,100)) +
+      scale_x_continuous(limits = c(0,23)) +
+      labs(x="Hour", y="Average Occupancy Rate") +
+      labs(title = "Average Hourly Parking Occupancy Rate of Ispark") +
+      scale_color_brewer(palette="Paired") +
+      theme_minimal()
+  })
 }
 
 

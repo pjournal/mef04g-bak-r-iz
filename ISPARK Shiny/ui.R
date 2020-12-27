@@ -6,8 +6,8 @@ library(leaflet)
 
 
 navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
-  tabPanel("Map",             #İkinci sayfa baslangici ve basligi
-    # sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak şekilde tasarım
+  tabPanel("Map",             #Ä°kinci sayfa baslangici ve basligi
+    # sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak ÅŸekilde tasarÄ±m
     #   sidebarPanel(width = 3
     #   ),
     #   mainPanel(width = 9,
@@ -31,12 +31,12 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
         )
     )
   ),          
-  tabPanel("Plots",           # Ilk sayfanın adı ve baslangici
-    sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak şekilde tasarım
+  tabPanel("Plots",           # Ilk sayfanÄ±n adı ve baslangici
+    sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak ÅŸekilde tasarÄ±m
       sidebarPanel(width = 3,
                    
-                   selectInput("x","X",c("_",unique(isparkparkbilgileri$Ilce))),
-                   selectInput("y","Y",c("_",unique(isparkparkbilgileri$ParkAdi)))
+                   selectInput("x","District",c("_",unique(isparkparkbilgileri$Ilce))),
+                   selectInput("y","Park Area Name",c("_",unique(isparkparkbilgileri$ParkAdi)))
                    
                    # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = FALSE),
                    # selectInput("parkType", "Select Park type", c(isparkparkbilgileri$ParkTipi), multiple = FALSE),
@@ -50,7 +50,7 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
             
         ),
       mainPanel(width = 9,
-                plotOutput("plot4")
+                plotOutput("plot5")
                 # output$plot <- renderPlot({
                 #   df <- isparkparkbilgileri %>% filter(OlcumZaman??? %in% input$timeRange) %>% filter(Ilce %in% input$location)
                 #   ggplot(df,aes(x=OlcumZaman???, y=DolulukYuzdesi))+

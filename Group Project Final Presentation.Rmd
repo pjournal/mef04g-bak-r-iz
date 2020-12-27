@@ -14,6 +14,7 @@ output:
       
 ---
 
+
 class: inverse, center, middle
 
 ![](https://ispark.istanbul/wp-content/uploads/2020/05/ispark-kurumsal-kimlik-yanyana-logo33.jpg)
@@ -149,4 +150,27 @@ isparkparkbilgileri %>%
        coord_flip()+
        theme(axis.text.x = element_text())
 ```
+
+
+---
+
+class: inverse, center, middle
+
+# Key Findings
+
+* Open Parks has a lower mean of monthly price than Close Park and Road Park.
+* In all park types, average parking occupancy rate during daytime is less than nights.
+* Open parking lots and parking garages are common in touristic and crowded places.
+* Roadside parking lots are common in less crowded areas.
+
+
+---
+
+class: inverse, center, middle
+
+# Thank You!
+
+
+
+
 

@@ -18,6 +18,13 @@ class: inverse, center, middle
 
 ![](https://ispark.istanbul/wp-content/uploads/2020/05/ispark-kurumsal-kimlik-yanyana-logo33.jpg)
 
+```{r eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+load("~/GitHub/mef04g-bak-r-iz/ISPARK.RData")
+isparkbilgileri <- isparkparkbilgileri
+```
+
+
 ---
 
 class: inverse, center, middle

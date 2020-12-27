@@ -1,7 +1,6 @@
 ---
 title: "Final Report of ISPARK Dataset"
 output:
-  pdf_document: default
   html_document: default
 ---
 
@@ -160,7 +159,7 @@ ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
 In this graph if we look at the park type, the district with the highest number is Fatih with the type of "YOL ÜSTÜ". For the "AÇIK OTOPARK" type again Fatih is the district with the highest number. For the "YOL ÜSTÜ" type Silivri district has the second highest number. We can say that "YOL ÜSTÜ" park is the most common type.
 
 ```{r}
-ggplot(isparkparkbilgileri, aes(Ilce))+
+ggplot(parkinformations, aes(Ilce))+
        geom_bar(aes(fill=ParkTipi), width = 0.5)+
        theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
@@ -169,7 +168,7 @@ ggplot(isparkparkbilgileri, aes(Ilce))+
 
 If we look at the frequencies of the parks Fatih district has the highest frequency. After that Beşiktaş and Şişli districts are almost equal and has the second highest frequency. Arnavutköy and Sultangazi are almost equal and has the lowest frequency.
 ```{r}
-isparkparkbilgileri %>%
+parkinformations %>%
        ggplot(mapping = aes(x = Ilce)) + geom_bar() +
        labs(title="Bar Chart",
             subtitle="Frequency of parks",

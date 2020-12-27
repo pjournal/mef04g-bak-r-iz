@@ -34,6 +34,10 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
   tabPanel("Plots",           # Ilk sayfanın adı ve baslangici
     sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak şekilde tasarım
       sidebarPanel(width = 3,
+                   
+                   selectInput("x","X",c("_",unique(isparkparkbilgileri$Ilce))),
+                   selectInput("y","Y",c("_",unique(isparkparkbilgileri$ParkAdi)))
+                   
                    # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = FALSE),
                    # selectInput("parkType", "Select Park type", c(isparkparkbilgileri$ParkTipi), multiple = FALSE),
                    # silederInput(inputId = "timeRange",
@@ -45,7 +49,8 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
                    
             
         ),
-      mainPanel(width = 9
+      mainPanel(width = 9,
+                plotOutput("plot4")
                 # output$plot <- renderPlot({
                 #   df <- isparkparkbilgileri %>% filter(OlcumZaman??? %in% input$timeRange) %>% filter(Ilce %in% input$location)
                 #   ggplot(df,aes(x=OlcumZaman???, y=DolulukYuzdesi))+

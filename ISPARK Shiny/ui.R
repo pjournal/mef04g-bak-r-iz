@@ -34,7 +34,8 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
   tabPanel("Plots",           # Ilk sayfanın adı ve baslangici
     sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak şekilde tasarım
       sidebarPanel(width = 3,
-                   # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = TRUE),
+                   # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = FALSE),
+                   # selectInput("parkType", "Select Park type", c(isparkparkbilgileri$ParkTipi), multiple = FALSE),
                    # silederInput(inputId = "timeRange",
                    # "Time Range",
                    # min = min(parkcapacitylog$OlcumZaman???),

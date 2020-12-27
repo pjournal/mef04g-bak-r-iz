@@ -27,7 +27,9 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
                       h2("Filters"),
                       sliderInput("total", "Total Capacity of Park", min(isparkparkbilgileri$Kapasitesi), max(isparkparkbilgileri$Kapasitesi),
                                   value = c(0,5000), step = 5, ticks = FALSE),
-                      checkboxInput("legend", "Show legend", TRUE)
+                      checkboxInput("legend", "Show legend", TRUE),
+                      sliderInput("occupancyrate", "Select Occupancy Rate", min(isparkparkbilgileri$OrtalamaDoluluk), max(isparkparkbilgileri$OrtalamaDoluluk)),
+                      selectInput("district", "Select District", c("All",unique(isparkparkbilgileri$Ilce)), multiple = TRUE)
         )
     )
   ),          

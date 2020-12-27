@@ -87,33 +87,29 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 
 We took out  2 of the park types because their quantity was lower than the others so they were misleading.
 In conclusion,
-* 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
+* 'Open Park' has a lower mean of monthly price than `Close Park` and `Road Park`. 
 * Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
 
-```{r}
+```{r, figures-side, fig.show="hold", out.width="50%", echo=FALSE, message=FALSE, warning=FALSE}
 parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title =" Avg. Monthly Price - All ", x = "Park Tipi", y = "Avg. Price") 
+
+parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% filter(AylıkAbonelikÜcreti != 0) %>%
+  ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
+  geom_boxplot() +
+  labs(title =" Avg. Monthly Price - 0 Excluded ", x = "Park Tipi", y = "Avg. Price") 
 ```
 
-## Hourly Occupancy Rate
+## Hourly& Daily Occupancy Rate
 
-The line graph below shows us average hourly occupancy rates of ‘Ispark’ stations. It can be seen from the graph that average parking occupancy rate during daytime is less than nights. Parking occupancy rate is starting to decrease when working hours started and continue to decrease until approximately 15:00 pm. and it sharply increases by closing hours of working day. The graph shows that ‘Ispark’ stations mostly used during night.
-
-```{r message=FALSE, warning=FALSE}
-park_capacity_hourly <- parkcapacitylog %>%
-  group_by(hour = lubridate::hour(OlcumZamanı)) %>%
-  summarize( avd_doluluk_orani =mean(DolulukYuzdesi))
-ggplot(park_capacity_hourly, aes(hour, avd_doluluk_orani)) +
-  geom_line() +
-  labs(x="Hour", y="Average Occupancy Rate") +
-  labs(title = "Average Hourly Parking Occupancy Rate of Ispark")
-```
+The line below shows us average hourly parking occupancy Rates by park types of ‘Ispark’ stations. In all park types, average parking occupancy rate during daytime (around 15:00) is less than nights. In other words, in all park types, park stations mostly used during night. 
+Another conclusion we can draw is, in average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.
+We can say on week days occupancy is lower than weekend days.
+Taxi Parks, seems %100 occupied all the time. Meaning IBB might want it to seem full all the time in dataset.
 
 
-The line below shows us average hourly parking occupancy Rates by park types of ‘Ispark’ stations. In all park types, the average occupancy rate decreases during daytime. In other words, in all park types, park stations mostly used during night. Another conclusion we can draw is, in average, it is more probably that chance to find empty parking space in parking garage than open parking lots and parking lots near road.
-
-
-```{r message=FALSE, warning=FALSE}
+```{r hourday, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE}
 mergedtable <- merge(x = parkcapacitylog, y = parkinformations, by = "ParkID", all.x = TRUE)
 merged_park_capacity_hourly <- mergedtable %>%
   group_by(hour = lubridate::hour(OlcumZamanı), ParkTipi) %>%
@@ -122,6 +118,17 @@ ggplot(merged_park_capacity_hourly, aes(hour, avd_doluluk_orani, color=ParkTipi)
   geom_line() +
   labs(x="Hour", y="Average Occupancy Rate") +
   labs(title = "Hourly Parking Occupancy Rate by Ispark Types")
+
+
+merged_park_capacity_daily <- mergedtable %>% 
+  group_by(wday = lubridate::wday(OlcumZamanı), ParkTipi) %>%
+  summarize( avd_doluluk_orani =mean(DolulukYuzdesi)) %>% filter(ParkTipi != "NA")
+  ggplot(merged_park_capacity_daily, aes(wday, avd_doluluk_orani, color=ParkTipi)) +
+  geom_line() +
+  labs(x="Week Day", y="Average Occupancy Rate") +
+  labs(title = "Daily Parking Occupancy Rate by Ispark Types")
+
+
 ```
 
 

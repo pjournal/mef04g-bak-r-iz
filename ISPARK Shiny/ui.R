@@ -51,10 +51,7 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
         ),
       mainPanel(width = 9,
                 plotOutput("plot5")
-                # output$plot <- renderPlot({
-                #   df <- isparkparkbilgileri %>% filter(OlcumZaman??? %in% input$timeRange) %>% filter(Ilce %in% input$location)
-                #   ggplot(df,aes(x=OlcumZaman???, y=DolulukYuzdesi))+
-                #     geom_line()
+                
                 
       )
     )

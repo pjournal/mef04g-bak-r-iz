@@ -12,7 +12,7 @@
 
 class: inverse, center, middle
 
-![](https://ispark.istanbul/wp-content/uploads/2020/05/ispark-kurumsal-kimlik-yanyana-logo33.jpg)
+#![](https://ispark.istanbul/wp-content/uploads/2020/05/ispark-kurumsal-kimlik-yanyana-logo33.jpg)
 
 
 
@@ -57,12 +57,6 @@ We took out  2 of the park types because their quantity was lower than the other
 In conclusion,
 * 'Open Park' has a lower mean of monthly price than 'Close Park' and 'Road Park'. 
 * Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
-
-
-```r
-isparkbilgileri %&gt;% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %&gt;% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
-  geom_boxplot()
-```
 
 ![](Group-Project-Final-Presentation_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 

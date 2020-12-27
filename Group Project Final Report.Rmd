@@ -129,33 +129,43 @@ ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
   labs(title="Price Histogram",x ="Price", y = "Count")
 ```
 
-## # of Parks According to Their Type
+## Total Park Capacities of Districts 
 
-In this graph if we look at the park type, the district with the highest number is Fatih with the type of "YOL ÜSTÜ". For the "AÇIK OTOPARK" type again Fatih is the district with the highest number. For the "YOL ÜSTÜ" type Silivri district has the second highest number. We can say that "YOL ÜSTÜ" park is the most common type.
+In this graph if we look at the total park capacities of districts.
 
-```{r}
-ggplot(parkinformations, aes(Ilce))+
-       geom_bar(aes(fill=ParkTipi), width = 0.5)+
-       theme(axis.text.x = element_text(angle=65, vjust=0.6))
+```{r message=FALSE, warning=FALSE}
+IlceToplamlar <- parkinformations %>% group_by(Ilce) %>% summarise(IlceKapasite=sum(Kapasitesi))
+
+parkinformations %>% group_by(Ilce,ParkTipi) %>% summarise(Kapasite=sum(Kapasitesi)) %>% 
+  right_join(., IlceToplamlar, by="Ilce") %>% 
+  ggplot(., aes(x=reorder(Ilce,-IlceKapasite), y=Kapasite, fill=ParkTipi)) +
+       geom_bar(position = "stack", stat = "identity", width = 0.5) +
+       theme(axis.text.x = element_text(angle=65, vjust=0.6)) +
+       xlab("Park Capacity") +
+       ylab("District")
+
 ```
 
 ## Frequency of the Parks
 
 If we look at the frequencies of the parks Fatih district has the highest frequency. After that Beşiktaş and Şişli districts are almost equal and has the second highest frequency. Arnavutköy and Sultangazi are almost equal and has the lowest frequency.
-```{r}
-parkinformations %>%
-       ggplot(mapping = aes(x = Ilce)) + geom_bar() +
-       labs(title="Bar Chart",
-            subtitle="Frequency of Parks",
-            caption="Source: Frequency of Manufacturers from 'ISPARK' dataset") +
-       coord_flip()+
-       theme(axis.text.x = element_text())
+<<<<<<< Updated upstream
+
+```{r message=FALSE, warning=FALSE}
+parkinformations %>% group_by(Ilce) %>% count() %>% 
+       ggplot(mapping = aes(x = reorder(Ilce, n), y=n)) + geom_bar(stat = "identity", fill="green") +
+       labs(title="Frequency of Park Areas")  +
+       coord_flip() + 
+       ylab("Park Area Count") +
+       xlab("District") +
+       theme_minimal()
+  
 ```
 
 # Key Takeaways
 
 * Total number of minibus and Taxi type of parks in Istanbul make the %2 of the total parks.
-* Fatih (%17) - Besiktas (%11) - Sisli (%11) - Bakirk�y (%6.58) - Kadik�y (%6.58) are the top 5 districts that have the most park number %52 of the total number.
+* Fatih (%17) - Besiktas (%11) - Sisli (%11) - Bakirköy (%6.58) - Kadiköy (%6.58) are the top 5 districts that have the most park number %52 of the total number.
 * Open park type has the lowest average monthly parking price among others.
 * At 15:00 occupancy rate is the lowest for all park types expect Taxi parks.
 

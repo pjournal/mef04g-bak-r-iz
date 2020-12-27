@@ -1,7 +1,8 @@
 ---
 title: "Final Report of ISPARK Dataset"
 output:
-  html_document: default
+  html_document: 
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -12,19 +13,6 @@ library(lubridate)
 parkinformations <- readRDS("ispark-parkbilgileri.RDS") %>% select(-c(Distance,BosKapasite))
 parkcapacitylog <- readRDS("parkcapacitylog.RDS")
 ```
-# Table of Contents
-
-* Our Mission
-* Brief Information About Dataset
-* Park Informations Table
-* Hourly Percentage of Occupancy Table
-* Missing Values
-* Park Type Summary Table
-* Boxplot of Avg. monthly price for each type of `Park Type`
-* Hourly Occupancy Rate
-* Price Histogram
-* Number of Parks According to Their Type
-* Frequency of the Parks
 
 # Our Mission
 
@@ -34,7 +22,9 @@ Understanding the relation between the park capacity and the other metric. Creat
 
 We have two tables in our dataset. First table contains informations about ISPARK park areas. Second table contains hourly percentage of occupancies of these park areas between 19 November 2020 and 2 December 2020. We have collected this data by using IBB OpenData API. You can also access this API from [here.](https://api.ibb.gov.tr/ispark/Park)
 
-### Park Informations Table
+# Important Tables & Plots
+
+## Park Informations Table
 
 Park Informations table contains 9 variables and 577 observations. Descriptions of columns is below.
 
@@ -54,7 +44,7 @@ summary(parkinformations)
 
 
 
-### Hourly Percentage of Occupancy Table
+## Hourly Percentage of Occupancy Table
 
 Hourly Percentage of Occupancy table contains 4 variables and `r nrow(parkcapacitylog)` observations. Descriptions of columns is below.
 
@@ -68,23 +58,8 @@ Hourly Percentage of Occupancy table contains 4 variables and `r nrow(parkcapaci
 summary(parkcapacitylog)
 ```
 
-# Missing Values
 
-We don't have any missing values in our tables as you can see below. We think this is because we use API data that is cleaned and submitted by others.
-
-Missing values in Park Informations table by variable
-
-```{r}
-sapply(parkinformations, function(x) sum(is.na(x)))
-```
-
-Missing values in Hourly Percentage of Occupancy table by variable
-
-```{r}
-sapply(parkcapacitylog, function(x) sum(is.na(x)))
-```
-
-**Park Type Summary Table**
+## Park Type Summary Table
 
 According to their types, we can see the count, total capacity and avg. monthly price in below table.
 
@@ -101,7 +76,7 @@ parktipi_adet <- parkinformations %>% group_by(ParkTipi) %>% count(ParkTipi, sor
 
 ```
 
-**Boxplot of Avg. monthly price for each type of `Park Type`. **
+## Boxplot of Avg. monthly price for each type of `Park Type`
 
 We took out  2 of the park types because their quantity was lower than the others so they were misleading.
 In conclusion,
@@ -113,7 +88,7 @@ parkinformations %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YO
   geom_boxplot()
 ```
 
-**HOURLY OCCUPANCY RATE**
+## Hourly Occupancy Rate
 
 The line graph below shows us average hourly occupancy rates of ‘Ispark’ stations. It can be seen from the graph that average parking occupancy rate during daytime is less than nights. Parking occupancy rate is starting to decrease when working hours started and continue to decrease until approximately 15:00 pm. and it sharply increases by closing hours of working day. The graph shows that ‘Ispark’ stations mostly used during night.
 
@@ -143,7 +118,7 @@ ggplot(merged_park_capacity_hourly, aes(hour, avd_doluluk_orani, color=ParkTipi)
 ```
 
 
-**PRICE HISTOGRAM**
+## Price Histogram
 
 The histogram below shows us the count of monthly membership prices for different parking types. It has been seen that monthly price of 400 TL and 100 TL are the least common prices. Count of open parks priced 200 TL and   count of parks with 0 price are almost identical to each other. According to the histogram We can say that the count of parks it mostly scattered around 200 TL. Free parking lots which doesn't allow monthly parking are the second most common park type. Also the measured data is a bi-modal distribution with two peaks.
 
@@ -154,7 +129,7 @@ ggplot(parkinformations, aes(x=AylıkAbonelikÜcreti, fill=ParkTipi))+
   labs(title="Price Histogram",x ="Price", y = "Count")
 ```
 
-**NUMBER OF PARKS ACCORDING TO THEIR TYPE**
+## # of Parks According to Their Type
 
 In this graph if we look at the park type, the district with the highest number is Fatih with the type of "YOL ÜSTÜ". For the "AÇIK OTOPARK" type again Fatih is the district with the highest number. For the "YOL ÜSTÜ" type Silivri district has the second highest number. We can say that "YOL ÜSTÜ" park is the most common type.
 
@@ -164,17 +139,23 @@ ggplot(parkinformations, aes(Ilce))+
        theme(axis.text.x = element_text(angle=65, vjust=0.6))
 ```
 
-**FREQUENCY OF THE PARKS**
+## Frequency of the Parks
 
 If we look at the frequencies of the parks Fatih district has the highest frequency. After that Beşiktaş and Şişli districts are almost equal and has the second highest frequency. Arnavutköy and Sultangazi are almost equal and has the lowest frequency.
 ```{r}
 parkinformations %>%
        ggplot(mapping = aes(x = Ilce)) + geom_bar() +
        labs(title="Bar Chart",
-            subtitle="Frequency of parks",
+            subtitle="Frequency of Parks",
             caption="Source: Frequency of Manufacturers from 'ISPARK' dataset") +
        coord_flip()+
        theme(axis.text.x = element_text())
 ```
 
+# Key Takeaways
+
+* Total number of minibus and Taxi type of parks in Istanbul make the %2 of the total parks.
+* Fatih (%17) - Besiktas (%11) - Sisli (%11) - Bakirk�y (%6.58) - Kadik�y (%6.58) are the top 5 districts that have the most park number %52 of the total number.
+* Open park type has the lowest average monthly parking price among others.
+* At 15:00 occupancy rate is the lowest for all park types expect Taxi parks.
 

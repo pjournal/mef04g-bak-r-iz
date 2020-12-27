@@ -34,14 +34,22 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
   tabPanel("Plots",           # Ilk sayfanın adı ve baslangici
     sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak şekilde tasarım
       sidebarPanel(width = 3,
-        #dateRangeInput("selectDate", "Select Date", start = NULL, end = NULL, min = NULL,
-        #               max = NULL, format = "yyyy-mm-dd", separator = " - "),
-        #checkboxInput("selectCar","Select Car", value = FALSE, width = NULL),
-        #selectInput("location","Park Location", c(df$Ilce), multiple = TRUE)
+                   # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = TRUE),
+                   # silederInput(inputId = "timeRange",
+                   # "Time Range",
+                   # min = min(parkcapacitylog$OlcumZaman???),
+                   # max = max(parkcapacitylog$OlcumZaman???),
+                   # value = c(2019,2020),
+                   # step=1)),
+                   
             
         ),
       mainPanel(width = 9
-        # Buraya grafik eklenecek
+                # output$plot <- renderPlot({
+                #   df <- isparkparkbilgileri %>% filter(OlcumZaman??? %in% input$timeRange) %>% filter(Ilce %in% input$location)
+                #   ggplot(df,aes(x=OlcumZaman???, y=DolulukYuzdesi))+
+                #     geom_line()
+                
       )
     )
   )

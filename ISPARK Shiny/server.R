@@ -4,6 +4,7 @@ library(RColorBrewer)
 library(stringr)
 library(dplyr)
 library(ggplot2)
+library(lubridate)
 
 
 function(input, output, session){
@@ -20,9 +21,28 @@ function(input, output, session){
     df3 <- isparkparkbilgileri %>% filter(Ilce %in% c(input$district))
   })
   
+  datafiltplot <- reactive({
+    parklarveilceler <- isparkparkbilgileri %>% select("ParkID","Ilce")
+    parkcapacitylog <- parkcapacitylog %>% right_join(., parklarveilceler, by="ParkID")
+    if (input$x == "Please Select a District" && input$y == "Please Select a Park Area") {
+      df1 <- parkcapacitylog
+    } else if (input$x != "Please Select a District" && input$y == "Please Select a Park Area") {
+      df1 <- parkcapacitylog %>% filter(Ilce %in% input$x)
+    } else {
+      df1 <- parkcapacitylog %>% filter(ParkAdi %in% input$y)
+    }
+    
+  })
   
-  
-  
+  plotheader <- reactive({
+    if (input$x == "Please Select a District" && input$y == "Please Select a Park Area") {
+      header <- "Average Hourly Parking Occupancy Rate of All Park Areas"
+    } else if (input$x != "Please Select a District" && input$y == "Please Select a Park Area") {
+      header <- paste0("Average Hourly Parking Occupancy Rate of Park Areas in ", input$x)
+    } else {
+      header <- paste0("Average Hourly Parking Occupancy Rate of ", input$y)
+    }
+  })
   
   output$map <- renderLeaflet({
     df1 <- datafilt() #%>% filter(!adi %in% input$stations)
@@ -44,18 +64,18 @@ function(input, output, session){
   })
 
   observeEvent(input$x,{
-    if(input$x=="_"){
-      updateSelectInput(session,"y",choices = c("_",unique(isparkparkbilgileri$ParkAdi))) 
+    if(input$x=="Please Select a District"){
+      updateSelectInput(session,"y",choices = c("Please Select a Park Area",unique(isparkparkbilgileri$ParkAdi))) 
     }else{
-      updateSelectInput(session,"y",choices = c("_",unique(isparkparkbilgileri$ParkAdi[isparkparkbilgileri$Ilce==input$x])),selected = isolate(input$y))
+      updateSelectInput(session,"y",choices = c("Please Select a Park Area",unique(isparkparkbilgileri$ParkAdi[isparkparkbilgileri$Ilce==input$x])),selected = isolate(input$y))
     }
   })
   
   observeEvent(input$y,{
-    if(input$y=="_"){
-      updateSelectInput(session,"x",choices = c("_",unique(isparkparkbilgileri$Ilce))) 
+    if(input$y=="Please Select a Park Area"){
+      updateSelectInput(session,"x",choices = c("Please Select a District",unique(isparkparkbilgileri$Ilce))) 
     }else{
-      updateSelectInput(session,"x",choices = c("_",unique(isparkparkbilgileri$Ilce[isparkparkbilgileri$ParkAdi==input$y])),selected = isolate(input$x))
+      updateSelectInput(session,"x",choices = c("Please Select a District",unique(isparkparkbilgileri$Ilce[isparkparkbilgileri$ParkAdi==input$y])),selected = isolate(input$x))
     }
   } )
  
@@ -79,8 +99,8 @@ function(input, output, session){
   
   output$plot5 <- renderPlot({
     
-    parkcapacitylog <- parkcapacitylog %>% filter(ParkAdi %in% input$y)
-    
+    parkcapacitylog <- datafiltplot()
+    header <- plotheader()
     
     park_capacity_hourly <- parkcapacitylog %>% 
       mutate(wday=lubridate::wday(OlcumZamanı,label=TRUE,abbr=FALSE), hour=lubridate::hour(OlcumZamanı)) %>% 
@@ -93,9 +113,8 @@ function(input, output, session){
       geom_line() +
       #facet_grid(Day ~.) +
       scale_y_continuous(limits = c(0,100)) +
-      scale_x_continuous(limits = c(0,23)) +
       labs(x="Hour", y="Average Occupancy Rate") +
-      labs(title = "Average Hourly Parking Occupancy Rate of Ispark") +
+      labs(title = header) +
       scale_color_brewer(palette="Paired") +
       theme_minimal()
   })

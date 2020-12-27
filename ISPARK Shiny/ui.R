@@ -7,13 +7,6 @@ library(leaflet)
 
 navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
   tabPanel("Map",             #Ä°kinci sayfa baslangici ve basligi
-    # sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak ÅŸekilde tasarÄ±m
-    #   sidebarPanel(width = 3
-    #   ),
-    #   mainPanel(width = 9,
-    #     leafletOutput("map")
-    #   )
-    # )
     div(class="outer",
         tags$head(
           includeCSS("styles.css")
@@ -22,7 +15,7 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
         leafletOutput("map", width="100%", height="100%"),
         absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                       draggable = TRUE, top = "auto", left = 40, right = "auto", bottom = 80,
-                      width = 330, height = "auto",
+                      width = 330, height = 500,
                       
                       h2("Filters"),
                       sliderInput("total", "Total Capacity of Park", min(isparkparkbilgileri$Kapasitesi), max(isparkparkbilgileri$Kapasitesi),
@@ -37,8 +30,8 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
     sidebarLayout(            # Sol tarafta secenek sag tarafta plot olacak ÅŸekilde tasarÄ±m
       sidebarPanel(width = 3,
                    
-                   selectInput("x","District",c("_",unique(isparkparkbilgileri$Ilce))),
-                   selectInput("y","Park Area Name",c("_",unique(isparkparkbilgileri$ParkAdi)))
+                   selectInput("x","District",c("Please Select a District",unique(isparkparkbilgileri$Ilce))),
+                   selectInput("y","Park Area Name",c("Please Select a Park Area",unique(isparkparkbilgileri$ParkAdi)))
                    
                    # selectInput("location","Park Location", c(isparkparkbilgileri$Ilce), multiple = FALSE),
                    # selectInput("parkType", "Select Park type", c(isparkparkbilgileri$ParkTipi), multiple = FALSE),
@@ -52,7 +45,7 @@ navbarPage("ISPARK Analysis", # Sayfa Basligi ve Baslangici
             
         ),
       mainPanel(width = 9,
-                plotOutput("plot5")
+                plotOutput("plot5", height = "600px")
                 
                 
       )

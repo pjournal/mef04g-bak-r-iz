@@ -20,6 +20,8 @@
 
 * [Final Report](Group-Project-Final-Report.html)
 
+* [Final Presentation](Group-Project-Final-Presentation.html)
+
 ## Our Data
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park)

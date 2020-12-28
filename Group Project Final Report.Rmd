@@ -202,7 +202,6 @@ parkinformations %>% group_by(Ilce) %>% count() %>%
        ylab("Park Area Count") +
        xlab("District") +
        theme_minimal()
-
 ```
 
 

@@ -11,7 +11,27 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      
+
+---
+
+class: inverse, center, middle
+
+# ISPARK PROJECT
+
+# B - a - k - R - ı - z
+   
+## Group Members
+
+Alihan BÜYÜKEKEN
+
+Bilgen YILMAZ
+
+Buğra BALANTEKİN
+
+Hüseyin EROĞLU
+
+İdil KAZEZYILMAZ
+
 ---
 
 

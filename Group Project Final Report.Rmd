@@ -205,4 +205,16 @@ parkinformations %>% group_by(Ilce) %>% count() %>%
 ```
 
 
+# References
+
+* https://uomresearchit.github.io/RSE18-shiny-workshop/goingfurther/reactive/
+
+* https://rstudio.github.io/leaflet/shiny.html
+
+* http://shiny.rstudio-staging.com/reference/shiny/1.0.1/updateSelectInput.html
+
+* https://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html
+
+* https://www.r-graph-gallery.com/267-reorder-a-variable-in-ggplot2.html
+
 

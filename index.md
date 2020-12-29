@@ -22,6 +22,8 @@
 
 * [Final Presentation](Group-Project-Final-Presentation.html)
 
+* [Presentation Teaser](https://youtu.be/R3c5ul4ABFE)
+
 ## Our Data
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park)

@@ -26,10 +26,11 @@
 
 ## Our Data
 
-* [Data set](https://api.ibb.gov.tr/ispark/Park)
+* [Data set](https://api.ibb.gov.tr/ispark/Park) *data is not available due to IBB.
 
 * [Data Preprocessing](DataPreProc.html)
 
 ## Group Assignment 1
+
 * [Isbike Report](https://alihan.shinyapps.io/ISBIKE-shiny/)
 

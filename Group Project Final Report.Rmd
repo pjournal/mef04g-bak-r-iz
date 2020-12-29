@@ -194,7 +194,7 @@ parkinformations %>% group_by(Ilce,ParkTipi) %>% summarise(Kapasite=sum(Kapasite
 
 If we look at the frequencies of the parks Fatih district has the highest frequency. After that Beşiktaş and Şişli districts are almost equal and has the second highest frequency. Arnavutköy and Sultangazi are almost equal and has the lowest frequency.
 
-```{r, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE}
+```{r, figures-side2, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE}
 parkinformations %>% group_by(Ilce) %>% count() %>% 
        ggplot(mapping = aes(x = reorder(Ilce, n), y=n)) + geom_bar(stat = "identity", fill="green") +
        labs(title="Frequency of Park Areas")  +

@@ -1,6 +1,6 @@
 library(dplyr)
 
-githubURL <- "https://github.com/pjournal/mef04g-bak-r-iz/raw/gh-pages/ISPARK%20Shiny/ISPARK.RData"
+githubURL <- "https://github.com/pjournal/mef04g-bak-r-iz/raw/gh-pages/ISPARK-Shiny/ISPARK.RData"
 download.file(githubURL,"ISPARK.Rdata")
 load("ISPARK.Rdata")
 

@@ -252,12 +252,15 @@ class: inverse, center, middle
 
 ---
 
+
 class: inverse, center, middle
 
 # Key Findings
 
-* Open Parks has a lower mean of monthly price than Close Park and Road Park.
-* In all park types, average parking occupancy rate during daytime is less than nights.
+* Total number of minibus and Taxi type of parks in Istanbul make the %2 of the total parks.
+* Fatih (%17) - Besiktas (%11) - Sisli (%11) - Bakirköy (%6.58) - Kadiköy (%6.58) are the top 5 districts that have the most park number %52 of the total number. But on the other hand capacity-wise Eyup has the biggest park capacity. We can say touristic areas has an advantage in terms of parking.
+* %33.96 of the parks are free. And On-Road or open parks are more likely to be free.
+* At 15:00 occupancy rate is the lowest for all park types expect Taxi parks. And closed parks are most likely to have empty space than others.
 * Open parking lots and parking garages are common in touristic and crowded places.
 * Roadside parking lots are common in less crowded areas.
 
@@ -268,7 +271,5 @@ class: inverse, center, middle
 
 # Thank You!
 
-
-
-
+[Our Group Page](https://pjournal.github.io/mef04g-bak-r-iz/)
 

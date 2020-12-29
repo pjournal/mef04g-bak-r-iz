@@ -18,7 +18,7 @@ function(input, output, session){
   datafilt <- reactive({
     df1 <- isparkparkbilgileri  %>% filter(Kapasitesi >= input$total[1], Kapasitesi <= input$total[2]) %>% 
     #df2 <- isparkparkbilgileri %>% 
-      filter(OrtalamaDoluluk >= input$occupancyrate[1], OrtalamaDoluluk <= input$occupancyrate[2])
+      filter((100-OrtalamaDoluluk) >= input$occupancyrate[1], (100-OrtalamaDoluluk) <= input$occupancyrate[2])
     #df3 <- isparkparkbilgileri %>%
     if (input$district != "All") {
       df1 <- df1 %>% filter(Ilce %in% input$district)

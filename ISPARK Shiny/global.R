@@ -1,6 +1,9 @@
 library(dplyr)
 
-load("ISPARK.RData")
+githubURL <- "https://github.com/pjournal/mef04g-bak-r-iz/raw/gh-pages/ISPARK%20Shiny/ISPARK.RData"
+download.file(githubURL,"ISPARK.Rdata")
+load("ISPARK.Rdata")
+
 isparkparkbilgileri$Latitude <- as.numeric(isparkparkbilgileri$Latitude)
 isparkparkbilgileri$Longitude <- as.numeric(isparkparkbilgileri$Longitude)
 ortdol <- function(ID){

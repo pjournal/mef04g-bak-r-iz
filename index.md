@@ -24,6 +24,10 @@
 
 * [Presentation Teaser](https://youtu.be/R3c5ul4ABFE)
 
+* [Shiny App](http://138.68.92.143:3838/ISPARK/) 
+
+You can run this app in your computer with this code: `shiny::runGitHub("mef04g-bak-r-iz", "pjournal", subdir = "ISPARK-Shiny", ref = "gh-pages")` 
+
 ## Our Data
 
 * [Data set](https://api.ibb.gov.tr/ispark/Park) *data is not available due to IBB.

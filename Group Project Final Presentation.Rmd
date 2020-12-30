@@ -122,7 +122,7 @@ class: inverse, left, middle
 
 # Free/ Paid Parking Areas
 
-We have 196 free, 381 paid parks in Istanbul.
+We have 196 free, 381 paid parks in Ispark.
 
 %52 of the free parks are On Road Type of park. %40.8 of the free parks are Open Parks.
 

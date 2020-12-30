@@ -107,8 +107,8 @@ class: inverse, left, middle
 
 # Boxplot of Avg. Monthly Price
 
-Open Park has a lower mean of monthly price than 'Close Park' and 'Road Park'.
-Close Park's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
+Open Park has a lower mean of monthly price than 'Parking Garages' and 'Near-Road Parks'.
+Parking garage's monthly price has outliers. But despite those outliers, its monthly prices varies the least.
 
 ```{r, out.width="50%", echo=FALSE}
 isparkbilgileri %>% filter(ParkTipi %in% c("AÇIK OTOPARK","KAPALI OTOPARK","YOL ÜSTÜ")) %>% ggplot(., aes(ParkTipi,AylıkAbonelikÜcreti)) +
@@ -124,7 +124,7 @@ class: inverse, left, middle
 
 We have 196 free, 381 paid parks in Ispark.
 
-%52 of the free parks are On Road Type of park. %40.8 of the free parks are Open Parks.
+%52 of the free parks are On Near-Road Type of park. %40.8 of the free parks are Open Parks.
 
 ```{r ucretdurumu, figures-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE, echo=FALSE}
 ucretdurumu <- isparkbilgileri %>% transmute(ucretDurumu = ifelse(AylıkAbonelikÜcreti == 0,"Free","Not Free"))
